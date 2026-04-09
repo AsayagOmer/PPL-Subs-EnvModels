@@ -1,0 +1,53 @@
+#lang racket
+
+(require "adt.rkt"
+         "parser.rkt"
+         "evaluator.rkt")
+
+;; Recursive Test Runner
+(define (run-tests tests)
+  (cond
+    ((null? tests)
+     (display "All tests completed.") (newline))
+    (else
+     
+     (let ((expr (car tests)))
+       (display "Testing: ") (display expr) (newline)
+       (display "Parsing: ")
+       (let* 
+           ((parsed (parse-expression expr))
+            (result (eval_ parsed)))
+       
+         (display "Parsed: ") (display parsed) (newline)
+         (display "Result: ") (display result) (newline)
+         ;(display "Expected: ") (display (eval expr)) (newline)
+         (newline)
+         (run-tests (cdr tests)))))))
+
+;; Define Tests
+(define tests
+  '(  (define x 2)
+     x
+    (+ 5 5)
+    (if #t 1 2)                                      ; `if`
+    ((lambda (x) (+ x x)) 5)                           ; `lambda` application
+    
+    (let ((x 10)(y 5))
+      (+ x y))                             ; `let`
+
+    
+    (cond ((> 5 3) "greater") ((< 5 3) "less") (else "equal"))   ; `cond`
+    ;(define (square x) (* x x))                        ; Function definition
+    ;(square 4)                                         ; Function application
+    ;(let ((x (lambda (y) (+ y 1)))) (x 5))             ; `let` with `lambda`
+    ;(define (compose f g)                              ; Higher-order function
+    ;  (lambda (x) (f (g x))))
+    ;((compose (lambda (x) (+ x 1)) (lambda (y) (* y y))) 3) ; Nested function application
+    ;(if (< 10 5)                                       ; Nested `if`
+    ;    (if (= 0 1) "impossible" "still impossible")
+    ;   "makes sense")
+    )
+  )
+
+;; Run Tests
+(run-tests tests)

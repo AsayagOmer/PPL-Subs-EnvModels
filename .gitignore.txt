@@ -1,0 +1,17 @@
+# Racket specific
+compiled/
+*.zo
+*.dep
+
+# DrRacket / Editor Backup files
+*~
+*.bak
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
